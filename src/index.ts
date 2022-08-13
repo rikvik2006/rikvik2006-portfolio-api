@@ -1,17 +1,39 @@
 import express from "express";
 const app = express();
 import router from "./router";
+import { config } from "dotenv";
+import "./database";
+import session from "express-session";
+import mongodbStore from "connect-mongo";
+
+config();
 
 const PORT = 3001
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({
+    extended: false,
+}));
 
 app.use((req, res, next) => {
     console.log(`${req.method}:${req.url}`)
     next()
 })
 
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET!,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 60000 * 60 * 24 * 7 * 6
+        },
+        store: mongodbStore.create({
+            mongoUrl: process.env.MONGO_URI,
+        })
+
+    })
+)
 
 app.listen(PORT, () => console.log(`Express application run on http://localhost:${PORT}`))
 

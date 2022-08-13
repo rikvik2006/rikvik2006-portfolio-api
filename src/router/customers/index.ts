@@ -1,8 +1,8 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 
 const router = Router()
 
-router.get("", (req, res) => {
+router.get("", (req: Request, res: Response) => {
     res.status(200).send({
         customers: [
             {
@@ -18,9 +18,7 @@ router.get("", (req, res) => {
 })
 
 router.post("/create", (req, res) => {
-    res.status(201).send({
-        msg: "POST: Created"
-    });
+
 })
 
 export default router;
