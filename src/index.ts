@@ -35,6 +35,14 @@ app.use(
     })
 )
 
+// https://stackoverflow.com/questions/65108033/property-user-does-not-exist-on-type-session-partialsessiondata
+
+declare module 'express-session' {
+    export interface SessionData {
+        visited: boolean; //[key: string]: any
+    }
+}
+
 app.listen(PORT, () => console.log(`Express application run on http://localhost:${PORT}`))
 
 app.use("/api", router);
