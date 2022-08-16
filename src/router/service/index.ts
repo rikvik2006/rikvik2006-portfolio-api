@@ -30,11 +30,9 @@ router.post("/create", async (req: Request, res: Response) => {
 
     const createProduct = await Products.create(data)
         .then((data) => {
-            console.log(data);
             return res.status(200).send(data);
         })
         .catch((err) => {
-            console.log(err)
             return res.status(400).send({
                 msg: "The the entered parameters don't statisfy the required types"
             })
