@@ -11,6 +11,22 @@ type User = {
     createdAt: Date;
 }
 
+router.get("/", async (req: Request, res: Response) => {
+    let data
+
+    try {
+        data = await Users.find()
+
+        if (data.length === 0) {
+            return res.sendStatus(204);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
+    res.status(200).send(data);
+})
+
 router.post("/register", async (req: Request, res: Response) => {
     const { email }: { email: string } = req.body;
 
