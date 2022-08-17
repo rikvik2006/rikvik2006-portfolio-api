@@ -5,6 +5,7 @@ import { config } from "dotenv";
 import "./database";
 import session from "express-session";
 import mongodbStore from "connect-mongo";
+import passport from "passport";
 
 config();
 
@@ -34,6 +35,9 @@ app.use(
 
     })
 )
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // https://stackoverflow.com/questions/65108033/property-user-does-not-exist-on-type-session-partialsessiondata
 

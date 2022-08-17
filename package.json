@@ -23,13 +23,18 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/passport-local": "^1.0.34",
     "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
     "mongoose": "^6.3.6",
     "passport": "^0.6.0",
-    "passport-discord": "^0.1.4"
+    "passport-discord": "^0.1.4",
+    "passport-local": "^1.0.0",
+    "unique-username-generator": "^1.1.1"
   }
 }
