@@ -6,6 +6,7 @@ import "./database";
 import session from "express-session";
 import mongodbStore from "connect-mongo";
 import passport from "passport";
+import "./stategies/local";
 
 config();
 
