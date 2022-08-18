@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import Products from "../../database/schemas/Products";
 import { Product } from "../../database/schemas/Products";
 const router = Router();
@@ -21,6 +21,12 @@ router.get("/", async (req: Request, res: Response) => {
 
     res.status(200).send(data)
 
+})
+
+
+router.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.user) next()
+    else res.sendStatus(401);
 })
 
 

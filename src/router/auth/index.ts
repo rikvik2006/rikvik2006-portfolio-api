@@ -1,7 +1,10 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { generateUsername } from "unique-username-generator";
 import Users from "../../database/schemas/Users";
 import { hashPassword } from "../../helpers/dataHashing";
+
+import passport from "passport";
+
 const router = Router();
 
 type User = {
@@ -11,20 +14,9 @@ type User = {
     createdAt: Date;
 }
 
-router.get("/", async (req: Request, res: Response) => {
-    let data
-
-    try {
-        data = await Users.find()
-
-        if (data.length === 0) {
-            return res.sendStatus(204);
-        }
-    } catch (err) {
-        console.log(err);
-    }
-
-    res.status(200).send(data);
+router.post("/login", passport.authenticate('local'), (req: Request, res: Response) => {
+    console.log("Logged in");
+    res.sendStatus(200)
 })
 
 router.post("/register", async (req: Request, res: Response) => {
@@ -48,6 +40,28 @@ router.post("/register", async (req: Request, res: Response) => {
         const newUser = await Users.create({ email, username, password })
         res.status(201).send({ newUser })
     }
+})
+
+
+router.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.user) next()
+    else res.sendStatus(401);
+})
+
+router.get("/", async (req: Request, res: Response) => {
+    let data
+
+    try {
+        data = await Users.find()
+
+        if (data.length === 0) {
+            return res.sendStatus(204);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
+    res.status(200).send(data);
 })
 
 export default router;
