@@ -8,8 +8,3 @@ export const hashPassword = (password: string) => {
 export const comparePassword = (raw: string, hash: string) => {
     return bcrypt.compareSync(raw, hash);
 }
-
-
-
-
-

@@ -16,7 +16,7 @@ type User = {
 
 router.post("/login", passport.authenticate('local'), (req: Request, res: Response) => {
     console.log("Logged in");
-    res.sendStatus(200)
+    res.redirect("http://localhost:3000/", 200)
 })
 
 router.post("/register", async (req: Request, res: Response) => {
@@ -60,6 +60,8 @@ router.get("/", async (req: Request, res: Response) => {
     } catch (err) {
         console.log(err);
     }
+
+    //ciaod
 
     res.status(200).send(data);
 })
