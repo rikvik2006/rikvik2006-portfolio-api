@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import Products from "../../database/schemas/Products";
 import { Product } from "../../database/schemas/Products";
+import { User } from "../../database/schemas/Users";
+import { isAuthenticated } from "../../helpers/middlewares";
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
@@ -24,10 +26,7 @@ router.get("/", async (req: Request, res: Response) => {
 })
 
 
-router.use((req: Request, res: Response, next: NextFunction) => {
-    if (req.user) next()
-    else res.sendStatus(401);
-})
+router.use(isAuthenticated);
 
 
 router.post("/create", async (req: Request, res: Response) => {

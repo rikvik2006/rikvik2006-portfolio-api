@@ -4,6 +4,7 @@ import Users from "../../database/schemas/Users";
 import { hashPassword } from "../../helpers/dataHashing";
 
 import passport from "passport";
+import { isAuthenticated, isSuperUser } from "../../helpers/middlewares";
 
 const router = Router();
 
@@ -43,10 +44,7 @@ router.post("/register", async (req: Request, res: Response) => {
 })
 
 
-router.use((req: Request, res: Response, next: NextFunction) => {
-    if (req.user) next()
-    else res.sendStatus(401);
-})
+router.use(isSuperUser);
 
 router.get("/", async (req: Request, res: Response) => {
     let data
