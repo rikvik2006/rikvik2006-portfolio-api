@@ -48,6 +48,14 @@ declare module 'express-session' {
     }
 }
 
+declare global {
+    namespace Express {
+        interface User {
+            email: string;
+        }
+    }
+}
+
 app.listen(PORT, () => console.log(`Express application run on http://localhost:${PORT}`))
 
 app.use("/api", router);
