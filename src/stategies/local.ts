@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import Users from "../database/schemas/Users";
 import { comparePassword } from "../helpers/dataHashing";
+import { User } from "../database/schemas/Users";
 
 passport.serializeUser((user: any, done) => {
     console.log("Serializing user...")
@@ -14,10 +15,10 @@ passport.deserializeUser(async (id: string, done) => {
     console.log(id);
 
     try {
-        const user = await Users.findById(id);
+        const user: User | null = await Users.findById(id);
         if (!user) throw new Error("User not found");
         console.log(user);
-        done(null, user);
+        done(null, user);   //req.user
     } catch (err) {
         console.log(err);
         done(err, null);

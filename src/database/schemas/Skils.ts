@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export interface Skil {
     name: string;
-    icon: string;
+    description: string;
 }
 
 const SkilsModel = new mongoose.Schema<Skil>({
@@ -10,7 +10,7 @@ const SkilsModel = new mongoose.Schema<Skil>({
         type: mongoose.SchemaTypes.String,
         required: true,
     },
-    icon: {
+    description: {
         type: mongoose.SchemaTypes.String,
         required: true,
     }
