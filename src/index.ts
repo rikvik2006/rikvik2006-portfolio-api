@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 const app = express();
 import router from "./router";
 import { config } from "dotenv";
@@ -8,6 +7,7 @@ import session from "express-session";
 import mongodbStore from "connect-mongo";
 import passport from "passport";
 import "./stategies/local";
+import cors from "cors";
 
 config();
 
@@ -17,7 +17,13 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: false,
 }));
-app.use(cors());
+
+app.use(
+    cors({
+        origin: ["http://localhost:3000"],
+        credentials: true
+    })
+)
 
 app.use((req, res, next) => {
     console.log(`${req.method}:${req.url}`)
@@ -60,4 +66,4 @@ declare global {
 
 app.listen(PORT, () => console.log(`Express application run on http://localhost:${PORT}`))
 
-app.use("/api", router);
+app.use("/api", router); 
