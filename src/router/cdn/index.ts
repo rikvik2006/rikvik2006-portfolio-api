@@ -6,7 +6,7 @@ router.use(isAuthenticated)
 
 router.get("/", (req: Request, res: Response) => {
     const responseBody = {
-        image: "http://localhost:3000"
+        image: "https://imgur.com/dS5gThg.png"
     }
 
     res.status(200).send(responseBody);

@@ -4,10 +4,16 @@ export interface User {
     email: string;
     username: string;
     password: string;
+    name: string;
+    surename: string;
+    avatar: string;
     createdAt: Date;
 }
 
 const User = new mongoose.Schema<User>({
+
+    //Required
+
     email: {
         type: mongoose.SchemaTypes.String,
         required: true,
@@ -18,6 +24,21 @@ const User = new mongoose.Schema<User>({
         required: true,
     },
     password: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+    },
+
+    name: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        default: "Jhon"
+    },
+    surename: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        default: "Doe",
+    },
+    avatar: {
         type: mongoose.SchemaTypes.String,
         required: true,
     },
