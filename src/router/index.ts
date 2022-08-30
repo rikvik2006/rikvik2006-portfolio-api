@@ -5,10 +5,12 @@ const router = Router();
 import serviceRouter from "./service";
 import authRouter from "./auth";
 import skilsRouter from "./skils";
+import cdnRouter from "./cdn";
 
 // router.use("/customers", customersRouter);
 router.use("/services", serviceRouter);
 router.use("/auth", authRouter);
-router.use("/skils", skilsRouter)
+router.use("/skils", skilsRouter);
+router.use("/cdn", cdnRouter);
 
 export default router;
