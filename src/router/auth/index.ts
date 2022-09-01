@@ -1,20 +1,16 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { generateUsername } from "unique-username-generator";
 import Users from "../../database/schemas/Users";
+import { User } from "../../database/schemas/Users";
 import { hashPassword } from "../../helpers/dataHashing";
+import * as style from "@dicebear/avatars-bottts-sprites"
 
 
 import passport from "passport";
 import { isAuthenticated, isSuperUser } from "../../helpers/middlewares";
+import { createAvatar } from "@dicebear/avatars";
 
 const router = Router();
-
-type User = {
-    email: string;
-    username: string;
-    password: string;
-    createdAt: Date;
-}
 
 router.post("/login", passport.authenticate('local'), (req: Request, res: Response) => {
     console.log("Logged in");
@@ -39,7 +35,13 @@ router.post("/register", async (req: Request, res: Response) => {
 
         const username = await generateUsername("", 4, 20);
 
-        const newUser = await Users.create({ email, username, password })
+        let avatar = createAvatar(style, {
+            seed: username
+        })
+
+        console.log(avatar);
+
+        const newUser = await Users.create({ email, username, password, avatar })
         res.status(201).send({ newUser })
     }
 })
