@@ -35,11 +35,7 @@ router.post("/register", async (req: Request, res: Response) => {
 
         const username = await generateUsername("", 4, 20);
 
-        let avatar = createAvatar(style, {
-            seed: username
-        })
-
-        console.log(avatar);
+        const avatar = `https://avatars.dicebear.com/api/bottts/${username}.svg`
 
         const newUser = await Users.create({ email, username, password, avatar })
         res.status(201).send({ newUser })
