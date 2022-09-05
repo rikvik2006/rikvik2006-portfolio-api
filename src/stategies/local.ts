@@ -4,6 +4,22 @@ import Users from "../database/schemas/Users";
 import { comparePassword } from "../helpers/dataHashing";
 import { User } from "../database/schemas/Users";
 
+declare global {
+    namespace Express {
+        interface User {
+            id: string
+            email: string;
+            username: string;
+            password: string;
+            name: string;
+            surename: string;
+            avatar: string;
+            createdAt: Date;
+        }
+    }
+}
+
+
 passport.serializeUser((user: any, done) => {
     console.log("Serializing user...")
     console.log(user);

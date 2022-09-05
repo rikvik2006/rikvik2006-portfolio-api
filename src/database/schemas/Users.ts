@@ -47,7 +47,7 @@ const User = new mongoose.Schema<User>({
         type: mongoose.SchemaTypes.Date,
         required: true,
         default: new Date(),
-    },
+    }
 })
 
 export default mongoose.model("users", User);

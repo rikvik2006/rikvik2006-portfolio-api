@@ -17,6 +17,25 @@ router.post("/login", passport.authenticate('local'), (req: Request, res: Respon
     res.redirect("http://localhost:3000/", 200)
 })
 
+router.post("/continuelogin", async (req: Request, res: Response) => {
+    const { name, surname, username } = req.body;
+    const userID = req.user?.id;
+
+    try {
+        const userDB = await Users.findById(userID);
+
+        if (!userDB) res.status(403).send({ msg: "An error occured, if you have a cookie blooker disable it" })
+
+        userDB?.update({ username, name, surname }, { multi: true })
+        userDB?.save();
+
+        res.status(200).send(userDB);
+    } catch (err) {
+        console.log(err);
+        res.status(403).send({ msg: "An error occured, if you have a cookie blooker disable it" })
+    }
+})
+
 router.post("/register", async (req: Request, res: Response) => {
     const { email }: { email: string } = req.body;
 
