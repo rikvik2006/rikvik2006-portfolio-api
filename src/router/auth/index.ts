@@ -33,7 +33,7 @@ router.post("/continuelogin", async (req: Request, res: Response) => {
         res.status(200).send(userDB);
     } catch (err) {
         console.log(err);
-        res.status(403).send({ msg: "An error occured, if you have a cookie blooker disable it" })
+        res.status(403).send({ msg: "An error occured, if you have a cookie bloocker disable it" })
     }
 })
 
