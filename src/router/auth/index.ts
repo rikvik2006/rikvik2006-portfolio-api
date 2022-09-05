@@ -3,12 +3,8 @@ import { generateUsername } from "unique-username-generator";
 import Users from "../../database/schemas/Users";
 import { User } from "../../database/schemas/Users";
 import { hashPassword } from "../../helpers/dataHashing";
-import * as style from "@dicebear/avatars-bottts-sprites"
-
-
 import passport from "passport";
-import { isAuthenticated, isSuperUser } from "../../helpers/middlewares";
-import { createAvatar } from "@dicebear/avatars";
+import { isSuperUser } from "../../helpers/middlewares";
 
 const router = Router();
 
@@ -18,17 +14,22 @@ router.post("/login", passport.authenticate('local'), (req: Request, res: Respon
 })
 
 router.post("/continuelogin", async (req: Request, res: Response) => {
-    const { name, surname, username } = req.body;
+    const { name, surname, username }: { name: string, surname: string, username: string } = req.body;
     const userID = req.user?.id;
+
+
+    if (!name || !surname || !username) return res.sendStatus(400);
 
     try {
         const userDB = await Users.findById(userID);
 
-        if (!userDB) res.status(403).send({ msg: "An error occured, if you have a cookie blooker disable it" })
+        if (!userDB) return res.status(403).send({ msg: "I cant retrive your userID, if you have a cookie blocker disable it!" })
 
-        userDB?.update({ username, name, surname }, { multi: true })
-        userDB?.save();
+        userDB!.name = name;
+        userDB!.surname = surname;
+        userDB!.username = username;
 
+        await userDB?.save();
         res.status(200).send(userDB);
     } catch (err) {
         console.log(err);
