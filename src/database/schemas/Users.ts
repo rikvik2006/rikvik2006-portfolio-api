@@ -6,7 +6,7 @@ export interface User {
     username: string;
     password: string;
     name: string;
-    surename: string;
+    surname: string;
     avatar: string;
     createdAt: Date;
 }
@@ -34,7 +34,7 @@ const User = new mongoose.Schema<User>({
         required: true,
         default: "Jhon"
     },
-    surename: {
+    surname: {
         type: mongoose.SchemaTypes.String,
         required: true,
         default: "Doe",
