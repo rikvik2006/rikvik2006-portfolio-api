@@ -8,6 +8,7 @@ import mongodbStore from "connect-mongo";
 import passport from "passport";
 import "./stategies/local";
 import cors from "cors";
+import cookieParser from "cookie-parser"
 
 config();
 
@@ -45,17 +46,24 @@ app.use(
     })
 )
 
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
 // https://stackoverflow.com/questions/65108033/property-user-does-not-exist-on-type-session-partialsessiondata
 //
 
+type id = {
+    id: string
+}
+
 declare module 'express-session' {
     export interface SessionData {
         visited: boolean; //[key: string]: any
+        user: id
     }
 }
+
 
 declare global {
     namespace Express {

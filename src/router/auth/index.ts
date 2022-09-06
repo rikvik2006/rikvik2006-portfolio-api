@@ -13,10 +13,12 @@ router.post("/login", passport.authenticate('local'), (req: Request, res: Respon
     res.redirect("http://localhost:3000/", 200)
 })
 
-router.post("/continuelogin", async (req: Request, res: Response) => {
+router.post("/continueregister", async (req: Request, res: Response) => {
     const { name, surname, username }: { name: string, surname: string, username: string } = req.body;
-    const userID = req.user?.id;
-
+    if (!req.cookies.id) {
+        return res.status(403).send({ mgs: "Unatorized" })
+    }
+    const userID = req.cookies.id;
 
     if (!name || !surname || !username) return res.sendStatus(400);
 
@@ -30,7 +32,9 @@ router.post("/continuelogin", async (req: Request, res: Response) => {
         userDB!.username = username;
 
         await userDB?.save();
+        res.clearCookie("id");
         res.status(200).send(userDB);
+        res.end();
     } catch (err) {
         console.log(err);
         res.status(403).send({ msg: "An error occured, if you have a cookie bloocker disable it" })
@@ -58,6 +62,9 @@ router.post("/register", async (req: Request, res: Response) => {
         const avatar = `https://avatars.dicebear.com/api/bottts/${username}.svg`
 
         const newUser = await Users.create({ email, username, password, avatar })
+        res.cookie("id", newUser.id, {
+            maxAge: 60 * 10 * 1000,
+        })
         res.status(201).send({ newUser })
     }
 })
