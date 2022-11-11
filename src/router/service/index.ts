@@ -44,5 +44,18 @@ router.post("/create", async (req: Request, res: Response) => {
         })
 })
 
+router.delete("/create/:id",async (req: Request, res: Response) => {
+    const id: String = req.params.id
+
+    try {
+        const deletedProductes = await Products.findOneAndDelete({ id })
+        deletedProductes?.save();
+        return res.status(200).send({ msg: "Products has been deleted " })
+    } catch (err) {
+        return res.status(400).send({
+            msg: "The ID you enterend doesn't exist",
+        })
+    }
+})
 
 export default router;
