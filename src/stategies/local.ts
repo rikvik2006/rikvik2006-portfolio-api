@@ -64,10 +64,10 @@ passport.use(
                     done(null, userDB);
                 } else {
                     console.log("Invalid auth");
-                    done(null, null);
+                    done(null, false);
                 }
             } catch (err) {
-                done(err, null);
+                done(err, false);
             }
         }
     ),

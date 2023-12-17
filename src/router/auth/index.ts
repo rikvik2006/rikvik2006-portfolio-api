@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { generateUsername } from "unique-username-generator";
 import Users from "../../database/schemas/Users";
-import { User } from "../../database/schemas/Users";
 import { hashPassword } from "../../helpers/dataHashing";
 import passport from "passport";
 import { isSuperUser } from "../../helpers/middlewares";
@@ -27,9 +26,12 @@ router.post("/continueregister", async (req: Request, res: Response) => {
 
         if (!userDB) return res.status(403).send({ msg: "I cant retrive your userID, if you have a cookie blocker disable it!" })
 
-        userDB!.name = name;
-        userDB!.surname = surname;
-        userDB!.username = username;
+        userDB.name = name;
+        userDB.surname = surname;
+        userDB.username = username;
+
+        const avatar = `https://api.dicebear.com/7.x/lorelei-neutral/svg?seed=${username}`
+        userDB.avatar = avatar;
 
         await userDB?.save();
         res.clearCookie("id");
@@ -59,7 +61,7 @@ router.post("/register", async (req: Request, res: Response) => {
 
         const username = await generateUsername("", 4, 20);
 
-        const avatar = `https://avatars.dicebear.com/api/bottts/${username}.svg`
+        const avatar = `https://api.dicebear.com/7.x/lorelei-neutral/svg?seed=${username}`
 
         const newUser = await Users.create({ email, username, password, avatar })
         res.cookie("id", newUser.id, {
