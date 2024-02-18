@@ -4,12 +4,13 @@ import Users from "../../database/schemas/Users";
 import { hashPassword } from "../../helpers/dataHashing";
 import passport from "passport";
 import { isSuperUser } from "../../helpers/middlewares";
+import { APIBaseUrl } from "../../constants";
 
 const router = Router();
 
 router.post("/login", passport.authenticate('local'), (req: Request, res: Response) => {
     console.log("Logged in");
-    res.redirect("http://localhost:3000/", 200)
+    res.redirect(200, APIBaseUrl ?? "http://localhost:3000")
 })
 
 router.post("/continueregister", async (req: Request, res: Response) => {

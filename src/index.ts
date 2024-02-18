@@ -9,6 +9,7 @@ import passport from "passport";
 import "./stategies/local";
 import cors from "cors";
 import cookieParser from "cookie-parser"
+import { APIBaseUrl } from "./constants";
 
 config();
 
@@ -21,7 +22,7 @@ app.use(express.urlencoded({
 
 app.use(
     cors({
-        origin: ["http://localhost:3000"],
+        origin: [APIBaseUrl ?? "http://localhost:3000"],
         credentials: true
     })
 )

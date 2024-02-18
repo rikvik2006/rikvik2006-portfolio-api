@@ -1,0 +1,1 @@
+export const APIBaseUrl = process.env.FRONTEND_BASE_URL;
