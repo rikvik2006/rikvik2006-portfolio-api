@@ -8,29 +8,41 @@ import mongodbStore from "connect-mongo";
 import passport from "passport";
 import "./stategies/local";
 import cors from "cors";
-import cookieParser from "cookie-parser"
-import { APIBaseUrl } from "./constants";
+import cookieParser from "cookie-parser";
+import { APIBaseURL, ClientBaseURL } from "./constants";
 
 config();
 
-const PORT = 3001
+const PORT = 3001;
 
 app.use(express.json());
-app.use(express.urlencoded({
-    extended: false,
-}));
+app.use(
+    express.urlencoded({
+        extended: false,
+    })
+);
+
+console.log("🧨 ClientBaseURL", ClientBaseURL);
+
+// app.use(
+//     cors({
+//         // origin: [ClientBaseURL ?? "http://localhost:3000"],
+//         origin: ClientBaseURL,
+//         credentials: true,
+//     })
+// );
 
 app.use(
     cors({
-        origin: [APIBaseUrl ?? "http://localhost:3000"],
-        credentials: true
+        origin: true,
+        credentials: true,
     })
-)
+);
 
 app.use((req, res, next) => {
-    console.log(`${req.method}:${req.url}`)
-    next()
-})
+    console.log(`${req.method}:${req.url}`);
+    next();
+});
 
 app.use(
     session({
@@ -38,14 +50,15 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 60000 * 60 * 24 * 7 * 6
+            maxAge: 60000 * 60 * 24 * 7 * 6,
+            secure: "auto",
+            domain: new URL(ClientBaseURL!).hostname,
         },
         store: mongodbStore.create({
             mongoUrl: process.env.MONGO_URI,
-        })
-
+        }),
     })
-)
+);
 
 app.use(cookieParser());
 app.use(passport.initialize());
@@ -55,16 +68,15 @@ app.use(passport.session());
 //
 
 type id = {
-    id: string
-}
+    id: string;
+};
 
-declare module 'express-session' {
+declare module "express-session" {
     export interface SessionData {
         visited: boolean; //[key: string]: any
-        user: id
+        user: id;
     }
 }
-
 
 declare global {
     namespace Express {
@@ -74,6 +86,8 @@ declare global {
     }
 }
 
-app.listen(PORT, () => console.log(`Express application run on http://localhost:${PORT}`))
+app.listen(PORT, () =>
+    console.log(`Express application run on http://localhost:${PORT}`)
+);
 
-app.use("/api", router); 
+app.use("/api", router);
