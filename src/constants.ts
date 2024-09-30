@@ -3,3 +3,4 @@ config();
 
 export const ClientBaseURL = process.env.FRONTEND_BASE_URL;
 export const APIBaseURL = process.env.API_BASE_URL;
+export const CookieSecure = process.env.COOKIE_SECURE === "true";

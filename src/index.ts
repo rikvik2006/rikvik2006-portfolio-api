@@ -9,7 +9,7 @@ import passport from "passport";
 import "./stategies/local";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { APIBaseURL, ClientBaseURL } from "./constants";
+import { APIBaseURL, ClientBaseURL, CookieSecure } from "./constants";
 
 config();
 
@@ -51,8 +51,9 @@ app.use(
         saveUninitialized: false,
         cookie: {
             maxAge: 60000 * 60 * 24 * 7 * 6,
-            secure: "auto",
             domain: new URL(ClientBaseURL!).hostname,
+            // sameSite: "none",
+            // secure: CookieSecure,
         },
         store: mongodbStore.create({
             mongoUrl: process.env.MONGO_URI,
